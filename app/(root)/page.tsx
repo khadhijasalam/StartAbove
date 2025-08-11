@@ -1,27 +1,32 @@
 // import Image from "next/image";
 
 import SearchForm from "@/components/SearchForm";
-import StartupCard from "@/components/StartupCard";
+import StartupCard, { StartupTypeCard } from "@/components/StartupCard";
+import { client } from "@/sanity/lib/client";
+import { STARTUPS_QUERY } from "@/sanity/lib/queries";
+
 export default async function Home({
   searchParams,
 }: {
   searchParams: Promise<{ query?: string }>;
 }) {
   const query = (await searchParams).query;
-  const posts = [
-    {
-      _createdAt: new Date(),
-      views: 55,
-      author: { _id: 1, name: "Khadhija" },
-      _id: 1,
-      description: "THis is a description.",
-      // title: "This is a title",
-      image:
-        "https://images.unsplash.com/photo-1526779259212-939e64788e3c?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZnJlZSUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D",
-      category: "Startups",
-      title: "Start Above",
-    },
-  ];
+  const posts = await client.fetch(STARTUPS_QUERY);
+  console.log(JSON.stringify(posts, null, 2));
+  // const posts = [
+  //   {
+  //     _createdAt: new Date(),
+  //     views: 55,
+  //     author: { _id: 1, name: "Khadhija" },
+  //     _id: 1,
+  //     description: "THis is a description.",
+  //     // title: "This is a title",
+  //     image:
+  //       "https://images.unsplash.com/photo-1526779259212-939e64788e3c?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZnJlZSUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D",
+  //     category: "Startups",
+  //     title: "Start Above",
+  //   },
+  // ];
 
   return (
     <>
@@ -43,7 +48,7 @@ export default async function Home({
         </p>
         <ul className="mt-7 card_grid ">
           {posts?.length > 0 ? (
-            posts.map((post: StartupCardType, index: number) => (
+            posts.map((post: StartupTypeCard, index: number) => (
               <StartupCard key={post?._id} post={post} />
             ))
           ) : (

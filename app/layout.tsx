@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
+// below is for markdown dtatype to work
+import "easymde/dist/easymde.min.css";
 
 const workSans = localFont({
   src: [
